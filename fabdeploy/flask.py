@@ -11,7 +11,8 @@ from .utils import inside_project
 __all__ = [
     'push_flask_config',
     'manage',
-    'migrate'
+    'migrate',
+    'shell'
 ]
 
 
@@ -45,6 +46,17 @@ class Manage(Task):
         run('python manage.py %(command)s %(options)s' % self.conf)
 
 manage = Manage()
+
+class Shell(Task):
+    @conf
+    def options(self):
+        return ''
+
+    @inside_project
+    def do(self):
+        run('python manage.py shell')
+
+shell = Shell()
 
 class Migrate(Manage):
     @conf

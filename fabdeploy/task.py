@@ -3,7 +3,7 @@ import inspect
 import warnings
 from contextlib import contextmanager
 
-from fabric.api import env, settings
+from fabric.api import env, settings, prefix
 from fabric.tasks import Task as BaseTask
 
 from .base import setup_fabdeploy
@@ -123,8 +123,9 @@ class Task(BaseTask):
             self._reset_conf()
 
     def run(self, **kwargs):
-        with self.tmp_conf(task_kwargs=kwargs):
-            self.before_do()
-            result = self.do()
-            self.after_do(result)
+        with prefix('export PATH=$PATH:/usr/local/bin'):
+            with self.tmp_conf(task_kwargs=kwargs):
+                self.before_do()
+                result = self.do()
+                self.after_do(result)
         return result
