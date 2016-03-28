@@ -64,3 +64,10 @@ class Migrate(Manage):
         return 'migrate'
 
 migrate = Migrate()
+
+class Shell(Manage):
+    @conf
+    def command(self):
+        return 'shell'
+
+shell = Shell()
